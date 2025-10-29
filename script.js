@@ -84,3 +84,4 @@ const observer = new IntersectionObserver((entries) => {
     }
     });
 }, observerOptions);
+observer.observe(videoContent);
