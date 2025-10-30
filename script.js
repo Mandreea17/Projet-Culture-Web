@@ -4,23 +4,23 @@ const timeline = document.querySelector('.timeline');
 const data = {
     "1": {
         title: "Les débuts de l'informatique",
-        period: "(1900–1945)",
-        description: "L'informatique naît avec les premières machines mécaniques et électromécaniques, comme la machine de Turing ou l'ENIAC. Ces inventions posent les bases du calcul automatisé et ouvrent la voie à l'ère numérique. Les pionniers comme Alan Turing développent les concepts fondamentaux qui définiront l'informatique moderne."
+        period: "(1941)",
+        description: "Créé par Konrad Zuse, le Z3 est le premier ordinateur programmable. Basé sur des relais électromécaniques et le langage binaire, il marque le point de départ de l’informatique moderne."
     },
     "2": {
         title: "L'émergence des réseaux",
         period: "(1958–1990)",
-        description: "Les ordinateurs deviennent interconnectés. ARPANET marque la naissance d'Internet et révolutionne la communication entre machines. Les protocoles TCP/IP sont créés, permettant l'échange de données à l'échelle mondiale. C'est le début d'une nouvelle ère de connectivité."
+        description: "En 1989, Tim Berners-Lee invente le World Wide Web. Grâce au HTML, au protocole HTTP et aux URL, les pages deviennent reliées entre elles et l’information circule à l’échelle mondiale."
     },
     "3": {
-        title: "L'ère du Web",
-        period: "(1990–2020)",
-        description: "Le Web transforme la communication et l'accès à l'information à l'échelle mondiale. Tim Berners-Lee invente le World Wide Web, démocratisant l'accès à Internet. Les réseaux sociaux, le e-commerce et les services en ligne deviennent omniprésents dans notre quotidien."
+        title: "Edward Snowden et la surveillance",
+        period: "(2013)",
+        description: "Edward Snowden révèle l’existence de programmes de surveillance mondiale de la NSA. Ses révélations éveillent la conscience publique sur la vie privée et popularisent le chiffrement des données."
     },
     "4": {
         title: "L'intelligence artificielle",
-        period: "(2020–...)",
-        description: "L'intelligence artificielle révolutionne les domaines de la santé, de l'éducation et de la créativité. Les modèles de deep learning et les transformers ouvrent des possibilités infinies. L'IA devient un assistant quotidien, capable de comprendre, créer et résoudre des problèmes complexes."
+        period: "(2020–2025)",
+        description: "Entre 2020 et 2025, l’IA s’impose dans le quotidien. OpenAI lance GPT-3, puis ChatGPT révolutionne l’usage du numérique. GPT-5 marque une nouvelle ère d’intelligence créative et collaborative."
     }
 };
 
@@ -29,44 +29,44 @@ periods.forEach(period => {
     const id = period.getAttribute('data-id');
     
     period.addEventListener('click', () => {
-    const active = document.querySelector('.period.active');
-    
-    if (active && active !== period) {
-        active.classList.remove('active');
-        const oldContent = active.querySelector('.dot-content');
-        if (oldContent) oldContent.remove();
-    }
-    
-    const isActive = period.classList.contains('active');
-    
-    if (isActive) {
-        period.classList.remove('active');
-        const oldContent = period.querySelector('.dot-content');
-        if (oldContent) oldContent.remove();
-        timeline.classList.remove('expanded');
-    } else {
-        period.classList.add('active');
-        timeline.classList.add('expanded');
+        const active = document.querySelector('.period.active');
         
-        const info = document.createElement('div');
-        info.classList.add('dot-content');
+        if (active && active !== period) {
+            active.classList.remove('active');
+            const oldContent = active.querySelector('.dot-content');
+            if (oldContent) oldContent.remove();
+        }
         
-        const title = document.createElement('h3');
-        title.textContent = data[id].title;
+        const isActive = period.classList.contains('active');
         
-        const periodLabel = document.createElement('div');
-        periodLabel.classList.add('period-label');
-        periodLabel.textContent = data[id].period;
-        
-        const description = document.createElement('p');
-        description.textContent = data[id].description;
-        
-        info.appendChild(title);
-        info.appendChild(periodLabel);
-        info.appendChild(description);
-        
-        dot.appendChild(info);
-    }
+        if (isActive) {
+            period.classList.remove('active');
+            const oldContent = period.querySelector('.dot-content');
+            if (oldContent) oldContent.remove();
+            timeline.classList.remove('expanded');
+        } else {
+            period.classList.add('active');
+            timeline.classList.add('expanded');
+            
+            const info = document.createElement('div');
+            info.classList.add('dot-content');
+            
+            const title = document.createElement('h3');
+            title.textContent = data[id].title;
+            
+            const periodLabel = document.createElement('div');
+            periodLabel.classList.add('period-label');
+            periodLabel.textContent = data[id].period;
+            
+            const description = document.createElement('p');
+            description.textContent = data[id].description;
+            
+            info.appendChild(title);
+            info.appendChild(periodLabel);
+            info.appendChild(description);
+            
+            dot.appendChild(info);
+        }
     });
 });
 
@@ -79,9 +79,11 @@ const observerOptions = {
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-    if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-    }
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
     });
 }, observerOptions);
+
 observer.observe(videoContent);
